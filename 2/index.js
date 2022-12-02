@@ -2,55 +2,37 @@ const { readFileSync } = require('fs');
 
 const input = readFileSync('./input.txt', 'utf8');
 
-const lines = input.split('\n');
+const lines = input.split('\n').map(line => line.split(' '));
+
+const wins = {
+    a: 'y',
+    b: 'z',
+    c: 'x'
+}
+
+const draws = {
+    a: 'x',
+    b: 'y',
+    c: 'z'
+}
 
 let score = 0;
 
-lines.forEach((line) => {
-    compare(line.split(' ')[0], line.split(' ')[1]);
+lines.forEach((chars) => {
+    chars[0] || chars[1] ? compare(chars[0], chars[1]) : null;
 });
 
 console.log(score);
 
-function compare(A, B) {
-    let choice1 = String(A).toLowerCase();
-    let choice2 = String(B).toLowerCase();
+function compare(a, b) {
+    const first = String(a).toLowerCase();
+    const second = String(b).toLowerCase();
 
-    if (choice1 == 'a') {
-        if (choice2 == 'y') {
-            score += 8;
-            return;
+    if (draws[first] == second) score += 3;
 
-        } else if (choice2 == 'x') {
-            score += 4;
-            return;
-        } else {
-            score += 3;
-            return;
-        }
-    }
-    else if (choice1 == 'b') {
-        if (choice2 == 'z') {
-            score += 9;
-            return;
-        } else if (choice2 == 'y') {
-            score += 5;
-            return;
-        } else {
-            score += 1;
-            return;
-        }
-    }
-    else if (choice1 == 'c') {
-        if (choice2 == 'x') {
-            score += 7;
-            return;
-        } else if (choice2 == 'z') {
-            score += 6;
-            return;
-        } else {
-            score += 2;
-            return;
-        }
-    }
+    if (wins[first] == second) score += 6;
+
+    if (second == 'x') score += 1;
+    if (second == 'y') score += 2;
+    if (second == 'z') score += 3;
 }
