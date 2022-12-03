@@ -1,32 +1,32 @@
-const { readFileSync } = require('fs');
+const { readFileSync } = require("fs");
 
-const input = readFileSync('./input.txt', 'utf8');
+const input = readFileSync("./input.txt", "utf8");
 
-const lines = input.split('\n').map(line => line.split(' '));
+const lines = input.split("\n").map((line) => line.split(" "));
 
 const wins = {
-    a: 'y',
-    b: 'z',
-    c: 'x'
-}
+    a: "y",
+    b: "z",
+    c: "x",
+};
 
 const draws = {
-    a: 'x',
-    b: 'y',
-    c: 'z'
-}
+    a: "x",
+    b: "y",
+    c: "z",
+};
 
 const loses = {
-    a: 'z',
-    b: 'x',
-    c: 'y'
-}
+    a: "z",
+    b: "x",
+    c: "y",
+};
 
 const translate = {
     x: loses,
     y: draws,
-    z: wins
-}
+    z: wins,
+};
 
 let score = 0;
 
@@ -45,7 +45,7 @@ function compare(a, b) {
 
     if (wins[first] == ditto) score += 6;
 
-    if (ditto == 'x') score += 1;
-    if (ditto == 'y') score += 2;
-    if (ditto == 'z') score += 3;
+    if (ditto == "x") score += 1;
+    if (ditto == "y") score += 2;
+    if (ditto == "z") score += 3;
 }

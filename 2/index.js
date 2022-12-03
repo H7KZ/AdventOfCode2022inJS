@@ -1,20 +1,20 @@
-const { readFileSync } = require('fs');
+const { readFileSync } = require("fs");
 
-const input = readFileSync('./input.txt', 'utf8');
+const input = readFileSync("./input.txt", "utf8");
 
-const lines = input.split('\n').map(line => line.split(' '));
+const lines = input.split("\n").map((line) => line.split(" "));
 
 const wins = {
-    a: 'y',
-    b: 'z',
-    c: 'x'
-}
+    a: "y",
+    b: "z",
+    c: "x",
+};
 
 const draws = {
-    a: 'x',
-    b: 'y',
-    c: 'z'
-}
+    a: "x",
+    b: "y",
+    c: "z",
+};
 
 let score = 0;
 
@@ -32,7 +32,7 @@ function compare(a, b) {
 
     if (wins[first] == second) score += 6;
 
-    if (second == 'x') score += 1;
-    if (second == 'y') score += 2;
-    if (second == 'z') score += 3;
+    if (second == "x") score += 1;
+    if (second == "y") score += 2;
+    if (second == "z") score += 3;
 }
