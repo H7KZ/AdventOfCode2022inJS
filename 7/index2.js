@@ -2,7 +2,7 @@ const { readFileSync } = require("fs");
 
 const input = readFileSync("./input.txt", "utf8");
 
-const lines = input.split("\n");
+const lines = input.split("\r\n");
 
 let path = [];
 
@@ -55,33 +55,19 @@ fileStructure.sort((a, b) => {
     } else {
         return 0;
     }
-});
-
-let dirs = [];
-
-fileStructure.map(dir => {
-    dirs.push({ path: dir.path, files: dir.files, size: dir.size });
-});
-
-dirs.reverse();
+}).reverse();
 
 let dirSizes = [];
 
-dirs.forEach(dir => {
+fileStructure.forEach(s => {
     let size = 0;
 
-    dir.files.forEach(file => {
-        if (file.type === "file") {
-            size += file.size;
-        } else {
-            console.log("PATH 1111: ");
-            console.log(dir.path.concat(file.name));
-            console.log("PATH 2222: ");
-            console.log(dirSizes.find(d => {
-                d.path.toString() == dir.path.concat(file.name).toString()
-            }));
+    s.files.forEach(f => {
 
-            let dirSize = dirSizes.find(d => d.path == dir.path.concat(file.name));
+        if (f.type === "file") {
+            size += f.size;
+        } else {
+            let dirSize = dirSizes.find(d => d.path.join("/") === s.path.concat(f.name).join("/"));
 
             if (dirSize) {
                 size += dirSize.size;
@@ -89,14 +75,23 @@ dirs.forEach(dir => {
         }
     });
 
-    dirSizes.push({
-        path: dir.path,
+    dirSizes.push(new Object({
+        path: s.path,
         size: size
-    });
+    }));
+});
 
-    console.log("DIR: ");
-    console.log({
-        path: dir.path,
-        size: size
-    });
+dirSizes.sort((a, b) => {
+    if (a.size < b.size) {
+        return -1;
+    } else if (a.size > b.size) {
+        return 1;
+    } else {
+        return 0;
+    }
+});
+
+dirSizes.filter(d => d.size > dirSizes[dirSizes.length - 1].size - 40000000).every(d => {
+    console.log(d.path.join("/") + " " + d.size);
+    return false;
 });
