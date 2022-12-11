@@ -6,6 +6,8 @@ const lines = input.split("\r\n\r\n").map(l => l.split("\r\n").map(l => l.split(
 
 let monkeys = [];
 
+let supermodulo = 1;
+
 lines.forEach(monkey => {
     let newMonkey = {
         name: Number(monkey[0].toString().split(" ")[1].toString().split(":")[0]),
@@ -18,21 +20,23 @@ lines.forEach(monkey => {
     }
 
     monkeys.push(newMonkey);
+
+    supermodulo *= newMonkey.test;
 })
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10000; i++) {
     monkeys.forEach(monkey => {
         let m = JSON.parse(JSON.stringify(monkey));
         m.items.forEach((item) => {
-            let worry = Math.floor(eval(m.operation.replaceAll("old", item)) / 3);
+            let worry = eval(m.operation.replaceAll("old", item));
 
             monkey.inspected++;
 
             if (worry % monkey.test == 0) {
-                monkeys.find(f => f.name == m.true).items.push(worry);
+                monkeys.find(f => f.name == m.true).items.push(worry % supermodulo);
                 monkey.items.splice(monkey.items.indexOf(item), 1);
             } else {
-                monkeys.find(f => f.name == m.false).items.push(worry);
+                monkeys.find(f => f.name == m.false).items.push(worry % supermodulo);
                 monkey.items.splice(monkey.items.indexOf(item), 1);
             }
         });
